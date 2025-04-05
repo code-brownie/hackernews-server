@@ -1,0 +1,43 @@
+name: Build and Deploy to Azure Container Apps
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: hackernews${{ secrets.USN_LOWERCASE }}.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+    
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: hackernews${{ secrets.USN_LOWERCASE }}.azurecr.io/hackernews:${{ github.sha }}, hackernews${{ secrets.USN_LOWERCASE }}.azurecr.io/hackernews:latest
+    
+    - name: Deploy to Azure Container Apps
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        resourceGroup: HackerNews
+        containerAppName: hackernews
+        containerAppEnvironment: HackerNewsContainerAppsEnvironment
+        image: hackernews${{ secrets.USN_LOWERCASE }}.azurecr.io/hackernews:${{ github.sha }}

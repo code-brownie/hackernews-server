@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { addComment, deleteComment, getCommentsOnPost, updateComment } from '../controller/comment.js';
-import { authMiddleware } from './auth.js';
+import { authMiddleware } from '../middleware/auth.js';
 
 
 export const commentRoutes = new Hono();
