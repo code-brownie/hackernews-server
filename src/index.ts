@@ -6,10 +6,12 @@ import { commentRoutes } from './routes/comment.js';
 import { authRoutes } from './routes/auth.js';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
-import dotenv from 'dotenv';
-
-
+import * as dotenv from "dotenv";
 dotenv.config();
+
+
+
+
 
 const app = new Hono();
 

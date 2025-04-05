@@ -1,19 +1,15 @@
-# Dockerfile
-
 FROM node:22.1.0
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY tsconfig*.json ./
-COPY src ./src
-COPY prisma ./prisma
+COPY . .
 
 RUN npm install
-RUN npx prisma generate
 
-# 👇 this compiles TypeScript to JavaScript in `dist/`
+RUN if [ -f "./prisma/schema.prisma" ]; then npx prisma generate; fi
+
 RUN npm run build
 
-# 👇 this is where Node starts your app
-CMD ["node", "dist/index.js"]
+EXPOSE 3000
+
+CMD ["npm", "start"]
