@@ -40,4 +40,4 @@ jobs:
         resourceGroup: HackerNews
         containerAppName: hackernews
         containerAppEnvironment: HackerNewsContainerAppsEnvironment
-        image: hackernews${{ secrets.USN_LOWERCASE }}.azurecr.io/hackernews:${{ github.sha }}
+        imageToDeploy: hackernews${{ secrets.USN_LOWERCASE }}.azurecr.io/hackernews:${{ github.sha }}
