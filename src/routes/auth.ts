@@ -4,5 +4,5 @@ import { logIn, signUp } from '../controller/auth.js';
 
 export const authRoutes = new Hono();
 
-authRoutes.get('/sign-in', signUp);
-authRoutes.get('/log-in', logIn);
+authRoutes.post('/sign-in', signUp);
+authRoutes.post('/log-in', logIn);

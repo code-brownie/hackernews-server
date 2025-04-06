@@ -7,6 +7,7 @@ import { authRoutes } from './routes/auth.js';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
 import * as dotenv from "dotenv";
+import { serve } from '@hono/node-server';
 dotenv.config();
 
 
@@ -17,7 +18,7 @@ const app = new Hono();
 
 // Middleware
 app.use('*', logger());
-app.use('*', cors());   
+app.use('*', cors());
 
 // Routes
 app.route('/auth', authRoutes);
@@ -27,6 +28,6 @@ app.route('/likes', likeRoutes);
 app.route('/comments', commentRoutes);
 
 const port = process.env.PORT || 3000;
-console.log(`Server running on http://localhost:${port}`);
 
-export default app;
+serve(app);
+console.log(`Server running on http://localhost:${port}`);

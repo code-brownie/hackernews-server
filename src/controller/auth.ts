@@ -1,11 +1,10 @@
 import { prisma } from '../config.js';
-import type { Context } from 'hono';
 import { sign } from 'hono/jwt';
 import { hash, compare } from 'bcrypt';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-export const signUp = async (c: Context) => {
+export const signUp = async (c:any) => {
   const { name, email, password } = await c.req.json();
 
   const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -22,7 +21,7 @@ export const signUp = async (c: Context) => {
   return c.json({ token, user });
 };
 
-export const logIn = async (c: Context) => {
+export const logIn = async (c:any) => {
   const { email, password } = await c.req.json();
 
   const user = await prisma.user.findUnique({ where: { email } });

@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+COPY .env .env
+
 RUN npm install
 
 RUN if [ -f "./prisma/schema.prisma" ]; then npx prisma generate; fi
