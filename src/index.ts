@@ -21,6 +21,7 @@ app.use('*', logger());
 app.use('*', cors());
 
 // Routes
+app.get('/', (c) => c.text('Hono!'))
 app.route('/auth', authRoutes);
 app.route('/users', userRoutes);
 app.route('/posts', postRoutes);
