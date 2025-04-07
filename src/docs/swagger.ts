@@ -105,7 +105,11 @@ appDocs.openapi(
       },
     },
   }),
-  async (c) => c.json({})
+  async (c) => c.json({ 
+    id: '123', 
+    name: 'John Doe', 
+    email: 'john@example.com' 
+  })
 )
 
 appDocs.openapi(
