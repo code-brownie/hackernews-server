@@ -105,10 +105,10 @@ appDocs.openapi(
       },
     },
   }),
-  async (c) => c.json({ 
-    id: '123', 
-    name: 'John Doe', 
-    email: 'john@example.com' 
+  async (c) => c.json({
+    id: '123',
+    name: 'John Doe',
+    email: 'john@example.com'
   })
 )
 
@@ -258,8 +258,19 @@ appDocs.openapi(
     tags: ['Posts'],
     summary: 'Delete a post',
     method: 'delete',
-    path: '/posts/:postId',
+    path: '/posts/{post}',
     security: [{ bearerAuth: [] }],
+    parameters: [
+      {
+        name: 'postId',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+        description: 'ID of the post to delete',
+      },
+    ],
     responses: {
       200: {
         description: 'Post deleted',
@@ -286,7 +297,18 @@ appDocs.openapi(
     tags: ['Likes'],
     summary: 'Get likes on a post',
     method: 'get',
-    path: '/likes/on/:postId',
+    path: '/likes/on/{post}',
+    parameters: [
+      {
+        name: 'postId',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+        description: 'ID of the post',
+      },
+    ],
     security: [{ bearerAuth: [] }],
     request: {
       query: z.object({
@@ -318,7 +340,18 @@ appDocs.openapi(
     tags: ['Likes'],
     summary: 'Like a post',
     method: 'post',
-    path: '/likes/on/:postId',
+    path: '/likes/on/{postId}',
+    parameters: [
+      {
+        name: 'postId',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+        description: 'ID of the post',
+      },
+    ],
     security: [{ bearerAuth: [] }],
     responses: {
       200: {
@@ -341,7 +374,18 @@ appDocs.openapi(
     tags: ['Likes'],
     summary: 'Unlike a post',
     method: 'delete',
-    path: '/likes/on/:postId',
+    path: '/likes/on/{post}',
+    parameters: [
+      {
+        name: 'postId',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+        description: 'ID of the post',
+      },
+    ],
     security: [{ bearerAuth: [] }],
     responses: {
       200: {
@@ -369,7 +413,18 @@ appDocs.openapi(
     tags: ['Comments'],
     summary: 'Get comments on a post',
     method: 'get',
-    path: '/comments/on/:postId',
+    path: '/comments/on/{post}',
+    parameters: [
+      {
+        name: 'postId',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+        description: 'ID of the post',
+      },
+    ],
     security: [{ bearerAuth: [] }],
     request: {
       query: z.object({
@@ -403,7 +458,18 @@ appDocs.openapi(
     tags: ['Comments'],
     summary: 'Add a comment to a post',
     method: 'post',
-    path: '/comments/on/:postId',
+    path: '/comments/on/{post}',
+    parameters: [
+      {
+        name: 'postId',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+        },
+        description: 'ID of the post',
+      },
+    ],
     security: [{ bearerAuth: [] }],
     request: {
       body: {
