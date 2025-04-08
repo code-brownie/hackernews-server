@@ -258,7 +258,7 @@ appDocs.openapi(
     tags: ['Posts'],
     summary: 'Delete a post',
     method: 'delete',
-    path: '/posts/{post}',
+    path: '/posts/{postId}',
     security: [{ bearerAuth: [] }],
     parameters: [
       {
@@ -297,7 +297,7 @@ appDocs.openapi(
     tags: ['Likes'],
     summary: 'Get likes on a post',
     method: 'get',
-    path: '/likes/on/{post}',
+    path: '/likes/on/{postId}',
     parameters: [
       {
         name: 'postId',
@@ -374,7 +374,7 @@ appDocs.openapi(
     tags: ['Likes'],
     summary: 'Unlike a post',
     method: 'delete',
-    path: '/likes/on/{post}',
+    path: '/likes/on/{postId}',
     parameters: [
       {
         name: 'postId',
@@ -413,7 +413,7 @@ appDocs.openapi(
     tags: ['Comments'],
     summary: 'Get comments on a post',
     method: 'get',
-    path: '/comments/on/{post}',
+    path: '/comments/on/{postId}',
     parameters: [
       {
         name: 'postId',
@@ -458,7 +458,7 @@ appDocs.openapi(
     tags: ['Comments'],
     summary: 'Add a comment to a post',
     method: 'post',
-    path: '/comments/on/{post}',
+    path: '/comments/on/{postId}',
     parameters: [
       {
         name: 'postId',
