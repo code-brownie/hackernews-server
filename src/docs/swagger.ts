@@ -14,7 +14,7 @@ appDocs.openapi(
     tags: ['Authentication'],
     summary: 'Register a new user',
     method: 'post',
-    path: '/auth/sign-up',
+    path: '/auth/sign-in',
     request: {
       body: {
         content: {
