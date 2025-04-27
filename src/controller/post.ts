@@ -10,10 +10,21 @@ export const getAllPosts = async (c: Context) => {
     orderBy: { createdAt: 'desc' },
     skip: (pageNum - 1) * limitNum,
     take: limitNum,
-    include: { author: { select: { id: true, name: true } } },
+    include: {
+      author: { select: { id: true, name: true } },
+      _count: { select: { comments: true, likes: true } },
+    },
   });
-
-  return c.json(posts);
+  const totalPosts = await prisma.post.count();
+  return c.json({
+    data: posts.map((post) => ({ ...post, commentsCount: post._count.comments, likesCount: post._count.likes })),
+    meta: {
+      currentPage: pageNum,
+      totalPages: Math.ceil(totalPosts / limitNum),
+      totalItems: totalPosts,
+      itemsPerPage: limitNum
+    }
+  });
 };
 
 export const getMyPosts = async (c: Context) => {
@@ -27,9 +38,24 @@ export const getMyPosts = async (c: Context) => {
     orderBy: { createdAt: 'desc' },
     skip: (pageNum - 1) * limitNum,
     take: limitNum,
+    include: {
+      author: { select: { id: true, name: true } },
+      _count: { select: { comments: true, likes: true } },
+    },
   });
 
-  return c.json(posts);
+  const totalPosts = await prisma.post.count({
+    where: { authorId: user.id },
+  });
+  return c.json({
+    data: posts.map((post) => ({ ...post, commentsCount: post._count.comments, likesCount: post._count.likes })),
+    meta: {
+      currentPage: pageNum,
+      totalPages: Math.ceil(totalPosts / limitNum),
+      totalItems: totalPosts,
+      itemsPerPage: limitNum
+    }
+  });
 };
 
 export const createPost = async (c: Context) => {

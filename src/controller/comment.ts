@@ -8,7 +8,7 @@ export const getCommentsOnPost = async (c: Context) => {
     const { page = '1', limit = '10' } = c.req.query();
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
-
+    
     const comments = await prisma.comment.findMany({
         where: { postId },
         orderBy: { createdAt: 'desc' },
@@ -16,8 +16,18 @@ export const getCommentsOnPost = async (c: Context) => {
         take: limitNum,
         include: { user: { select: { id: true, name: true } } },
     });
-
-    return c.json(comments);
+    const totalCommentsOnPost = await prisma.comment.count({
+        where: { postId }
+    });
+    return c.json({
+        data: comments,
+        meta: {
+            currentPage: pageNum,
+            totalPages: Math.ceil(totalCommentsOnPost / limitNum),
+            totalItems: totalCommentsOnPost,
+            itemsPerPage: limitNum
+        }
+    });
 };
 
 export const addComment = async (c: Context) => {

@@ -1,5 +1,5 @@
 import { prisma } from '../config.js';
-import type{ Context } from 'hono';
+import type { Context } from 'hono';
 
 export const getCurrentUser = async (c: Context) => {
     const user = c.get('user');
@@ -24,6 +24,14 @@ export const getAllUsers = async (c: Context) => {
         take: limitNum,
         select: { id: true, name: true, email: true, createdAt: true },
     });
-
-    return c.json(users);
+    const totalUsers = await prisma.user.count();
+    return c.json({
+        data: users,
+        meta: {
+            currentPage: pageNum,
+            totalPages: Math.ceil(totalUsers / limitNum),
+            totalItems: totalUsers,
+            itemsPerPage: limitNum
+        }
+    });
 };
