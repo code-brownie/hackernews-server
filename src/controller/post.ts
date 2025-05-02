@@ -78,6 +78,17 @@ export const deletePost = async (c: Context) => {
   if (!post) return c.json({ error: 'Post not found' }, 404);
   if (post.authorId !== user.id) return c.json({ error: 'Unauthorized' }, 403);
 
+  // delete all the likes & comments on the post to solve the foreign key violation
+  await prisma.like.deleteMany({
+    where: { postId: postId }
+  });
+
+  await prisma.comment.deleteMany({
+    where: {
+      postId: postId
+    }
+  });
+
   await prisma.post.delete({ where: { id: postId } });
 
   return c.json({ message: 'Post deleted successfully' });
